@@ -24,7 +24,7 @@ jobs:
     - name: Replace Variables in appsettings.json
       uses: Nambers/ReplaceStringInFile@v1.3
       with:
-        path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\API\\\\\appsettings.json"
+        path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\API\\\\appsettings.json"
         oldString: "{{MESSAGING_CONNECTIONSTRING}}"
         newString: "${{secrets.MESSAGING_CONNECTIONSTRING}}"
         showFileContent: true
@@ -32,7 +32,7 @@ jobs:
     - name: Replace Variables in appsettings.json
       uses: Nambers/ReplaceStringInFile@v1.3
       with:
-        path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\API\\\\\appsettings.json"
+        path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\API\\\\appsettings.json"
         oldString: "{{MESSAGING_DATABASE_NAME}}"
         newString: "${{secrets.MESSAGING_DATABASE_NAME}}"
         showFileContent: true
