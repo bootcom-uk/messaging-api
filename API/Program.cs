@@ -1,19 +1,19 @@
 using API.Middleware;
+using API.Services;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var assembly = Assembly.GetExecutingAssembly();
-var assemblyName = assembly.GetName().Name;
-var stream = null as Stream;
+var appsettingsFile = null as string;
 
 #if DEBUG
-stream = assembly.GetManifestResourceStream($"{assemblyName}.appsettings.Development.json");
+    appsettingsFile = "appsettings.Development.json";
 #else
-    stream = assembly.GetManifestResourceStream($"{assemblyName}.appsettings.json");
+    appsettingsFile= "appsettings.json";
 #endif
 
-builder.Configuration.AddJsonStream(stream!);
+builder.Configuration.AddJsonFile(appsettingsFile);
 
 // Add services to the container.
 
@@ -21,6 +21,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddSingleton<DatabaseService>();
+builder.Services.AddSingleton<APIKeyService>();
 
 // Register the custom authentication scheme
 builder.Services.AddAuthentication(options =>
