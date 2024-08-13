@@ -43,6 +43,11 @@ jobs:
     - name: Publish the Web API
       run: dotnet publish -c Release -o publish
 
+    - name: Azure login
+      uses: azure/login@v2
+      with:
+         creds: ${{ secrets.AZURE_APP_SERVICE_CREDENTIALS }}
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v3
       with:
