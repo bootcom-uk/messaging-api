@@ -1,5 +1,6 @@
 using API.Middleware;
 using API.Services;
+using Serilog;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -18,6 +19,17 @@ builder.Configuration.AddJsonFile(appsettingsFile);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+var serilogLogger = new LoggerConfiguration()
+    .WriteTo.MongoDBBson(config =>
+    {
+        config.SetConnectionString(builder.Configuration["Logging:ConnectionString"]!);
+        config.SetCollectionName("Messaging");
+    })
+    .CreateLogger();
+
+builder.Services.AddLogging(configure => configure.AddSerilog(serilogLogger, dispose: true));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
