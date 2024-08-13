@@ -51,7 +51,7 @@ jobs:
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v3
       with:
-        credentials: ${{ secrets.AZURE_APP_SERVICE_CREDENTIALS }}
+        app-name: "BootComMessaging"
 
     - name: Clean up the build
       run: rm -rf publish
