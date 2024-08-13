@@ -46,9 +46,7 @@ jobs:
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v3
       with:
-        app-name: ${{ secrets.AZURE_APP_SERVICE_NAME }}
-        publish-profile: ${{ secrets.AZURE_APP_SERVICE_CREDENTIALS }}
-        package: publish
+        credentials: ${{ secrets.AZURE_APP_SERVICE_CREDENTIALS }}
 
     - name: Clean up the build
       run: rm -rf publish
