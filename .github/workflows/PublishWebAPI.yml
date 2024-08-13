@@ -37,6 +37,14 @@ jobs:
         newString: "${{secrets.MESSAGING_DATABASE_NAME}}"
         showFileContent: true
 
+    - name: Replace Variables in appsettings.json
+      uses: Nambers/ReplaceStringInFile@v1.3
+      with:
+        path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\API\\\\appsettings.json"
+        oldString: "{{LOGGING_CONNECTIONSTRING}}"
+        newString: "${{secrets.LOGGING_CONNECTIONSTRING}}"
+        showFileContent: true
+
     - name: Build the solution
       run: dotnet build --configuration Release --no-restore
 
