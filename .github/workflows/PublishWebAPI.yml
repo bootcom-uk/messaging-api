@@ -53,5 +53,3 @@ jobs:
       with:
         app-name: "BootComMessaging"
 
-    - name: Clean up the build
-      run: rm -rf publish
