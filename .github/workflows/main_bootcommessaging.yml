@@ -25,13 +25,13 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}\messaging-api\messaging-api\API\API.csproj
+        run: dotnet publish -c Release -o D:\a\messaging-api\messaging-api\API\API.csproj
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}\messaging-api\messaging-api\API\API.csproj
+          path: D:\a\messaging-api\messaging-api\API\API.csproj
 
   deploy:
     runs-on: windows-latest
