@@ -24,11 +24,16 @@ var serilogLogger = new LoggerConfiguration()
     .WriteTo.MongoDBBson(config =>
     {
         config.SetConnectionString(builder.Configuration["Logging:ConnectionString"]!);
-        config.SetCollectionName("Messaging");
+        config.SetCollectionName("Messaging");        
+        config.SetExpireTTL(TimeSpan.FromDays(90));
     })
     .CreateLogger();
 
-builder.Services.AddLogging(configure => configure.AddSerilog(serilogLogger, dispose: true));
+builder.Services.AddLogging(configure =>
+{
+    configure.SetMinimumLevel(LogLevel.Warning);
+    configure.AddSerilog(serilogLogger, dispose: true);
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
