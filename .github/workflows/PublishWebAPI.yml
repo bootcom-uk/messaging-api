@@ -58,5 +58,7 @@ jobs:
       uses: azure/webapps-deploy@v3
       with:
         app-name: "BootComMessaging"
-        package: "publish"
-
+    
+    - name: logout
+      run: |
+          az logout
