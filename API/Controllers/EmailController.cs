@@ -13,7 +13,7 @@ namespace API.Controllers
         [HttpGet]
         public IActionResult SendDateTime()
         {
-            return Ok(DateTime.Now);
+            return Ok(MessagingConfiguration.Messaging.Email);
         }
 
         [HttpPost]
