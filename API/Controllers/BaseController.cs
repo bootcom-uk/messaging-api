@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using API.Configuration;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -9,8 +10,10 @@ namespace API.Controllers
     public class BaseController : ControllerBase
     {
 
-        public BaseController() { 
-        
+        internal readonly MessagingConfiguration MessagingConfiguration;
+
+        public BaseController(IConfiguration configuration) {
+            MessagingConfiguration = configuration.Get<MessagingConfiguration>()!;
         }
 
     }

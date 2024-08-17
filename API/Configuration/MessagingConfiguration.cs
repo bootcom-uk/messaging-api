@@ -5,5 +5,7 @@
 
         public required MongoDatabaseDetail DatabaseDetail { get; set; }
 
+        public required MessageTypes Messaging {  get; set; }
+
     }
 }
