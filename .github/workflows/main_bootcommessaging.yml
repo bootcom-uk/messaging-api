@@ -21,6 +21,14 @@ jobs:
         with:
           dotnet-version: '8.x'
 
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\home\\\\home\\\\Mobile\\\\Mobile\\\\appsettings.json"
+          oldString: "{{LOGGING_CONNECTIONSTRING}}"
+          newString: "${{secrets.LOGGING_CONNECTIONSTRING}}"
+          showFileContent: true
+
       - name: dotnet publish
         run: dotnet publish -c=Release -property:PublishDir=/publish --arch=x86
 
