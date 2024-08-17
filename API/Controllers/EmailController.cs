@@ -34,7 +34,7 @@ namespace API.Controllers
                 return NoContent();
             }
 
-            return BadRequest(response);
+            return BadRequest(apiKey);
 
         }
 
