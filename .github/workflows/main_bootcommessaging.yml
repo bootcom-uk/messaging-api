@@ -22,7 +22,7 @@ jobs:
           dotnet-version: '8.x'
 
       - name: dotnet publish
-        run: dotnet publish -c Release -property:PublishDir /publish --arch x86
+        run: dotnet publish -c=Release -property:PublishDir=/publish --arch=x86
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
