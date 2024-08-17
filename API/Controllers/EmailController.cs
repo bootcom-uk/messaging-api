@@ -21,7 +21,7 @@ namespace API.Controllers
         {
             var apiKey = MessagingConfiguration.Messaging.Email;
             var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("no-reply@bootcom.co.uk", "Example User");
+            var from = new EmailAddress("test@example.com", "Example User");
             var subject = "Sending with SendGrid is Fun";
             var to = new EmailAddress("chris@bootcom.co.uk", "Chris Boot");
             var plainTextContent = "and easy to do anywhere, even with C#";
