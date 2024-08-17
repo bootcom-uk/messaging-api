@@ -21,17 +21,46 @@ jobs:
         with:
           dotnet-version: '8.x'
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{LOGGING_CONNECTIONSTRING}}"
+          newString: "${{secrets.LOGGING_CONNECTIONSTRING}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{MESSAGING_CONNECTIONSTRING}}"
+          newString: "${{secrets.MESSAGING_CONNECTIONSTRING}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{MESSAGING_DATABASE_NAME}}"
+          newString: "${{secrets.MESSAGING_DATABASE_NAME}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{MESSAGING_EMAIL_API_KEY}}"
+          newString: "${{secrets.MESSAGING_EMAIL_API_KEY}}"
+          showFileContent: true
 
       - name: dotnet publish
-        run: dotnet publish --self-contained -c Release -o myapp
+        run: dotnet publish -c=Release -property:PublishDir=/publish --arch=x86
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: myapp
+          path: /publish
 
   deploy:
     runs-on: windows-latest
@@ -39,13 +68,22 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+    permissions:
+      id-token: write #This is required for requesting the JWT
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
       
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A5EB16263A4B4075A935E1E6A953E008 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_28F7E5CC404C4DA380D629D011D24945 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_BE33B4FA56AC4E2ABFE6ADE3705ECA70 }}
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -53,4 +91,4 @@ jobs:
           app-name: 'BootComMessaging'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D76E92E7907845CEA08CA0001905BAD0 }}
+          
