@@ -29,6 +29,22 @@ jobs:
           newString: "${{secrets.LOGGING_CONNECTIONSTRING}}"
           showFileContent: true
 
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{MESSAGING_CONNECTIONSTRING}}"
+          newString: "${{secrets.MESSAGING_CONNECTIONSTRING}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{MESSAGING_DATABASE_NAME}}"
+          newString: "${{secrets.MESSAGING_DATABASE_NAME}}"
+          showFileContent: true
+
       - name: dotnet publish
         run: dotnet publish -c=Release -property:PublishDir=/publish --arch=x86
 
