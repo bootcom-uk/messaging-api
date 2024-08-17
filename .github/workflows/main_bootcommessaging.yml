@@ -24,7 +24,7 @@ jobs:
       - name: Replace Variables in appsettings.json
         uses: Nambers/ReplaceStringInFile@v1.3
         with:
-          path: "D:\\\\a\\\\home\\\\home\\\\Mobile\\\\Mobile\\\\appsettings.json"
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\appsettings.json"
           oldString: "{{LOGGING_CONNECTIONSTRING}}"
           newString: "${{secrets.LOGGING_CONNECTIONSTRING}}"
           showFileContent: true
