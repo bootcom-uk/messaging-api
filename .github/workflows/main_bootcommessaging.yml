@@ -49,8 +49,56 @@ jobs:
         uses: Nambers/ReplaceStringInFile@v1.3
         with:
           path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
-          oldString: "{{MESSAGING_EMAIL_API_KEY}}"
-          newString: "${{secrets.MESSAGING_EMAIL_API_KEY}}"
+          oldString: "{{EMAIL_HOST}}"
+          newString: "${{secrets.EMAIL_HOST}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{EMAIL_PORT}}"
+          newString: "${{secrets.EMAIL_PORT}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{EMAIL_USE_SSL}}"
+          newString: "${{secrets.EMAIL_USE_SSL}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{FROM_EMAIL_ADDRESS}}"
+          newString: "${{secrets.FROM_EMAIL_ADDRESS}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{FROM_EMAIL_DISPLAY_NAME}}"
+          newString: "${{secrets.FROM_EMAIL_DISPLAY_NAME}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{FROM_EMAIL_USERNAME}}"
+          newString: "${{secrets.FROM_EMAIL_USERNAME}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{FROM_EMAIL_PASSWORD}}"
+          newString: "${{secrets.FROM_EMAIL_PASSWORD}}"
           showFileContent: true
 
       - name: dotnet publish
