@@ -1,4 +1,5 @@
 ﻿using API.Configuration;
+using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,8 +13,11 @@ namespace API.Controllers
 
         internal readonly MessagingConfiguration MessagingConfiguration;
 
-        public BaseController(IConfiguration configuration) {
+        internal readonly DatabaseService DatabaseService;
+
+        public BaseController(IConfiguration configuration, DatabaseService databaseService) {
             MessagingConfiguration = configuration.Get<MessagingConfiguration>()!;
+            DatabaseService = databaseService;
         }
 
     }

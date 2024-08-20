@@ -3,7 +3,7 @@
     public class MessageTypes
     {
 
-        public required string Email { get; set; }
+        public required EmailConfiguration Email { get; set; }
 
     }
 }
