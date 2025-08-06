@@ -15,5 +15,7 @@ namespace API.Models
 
         public required Dictionary<string, string> Data { get; set; }    
 
+        public string? EmailSubject { get; set; }
+
     }
 }

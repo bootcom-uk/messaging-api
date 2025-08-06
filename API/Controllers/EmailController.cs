@@ -79,7 +79,14 @@ namespace API.Controllers
             smtpMessage.Body = Merge(emailRecord.EmailBody, emailSettings.Data);
 
             // Setup the mail subject 
-            smtpMessage.Subject = Merge(emailRecord.EmailSubject, emailSettings.Data);
+            if (string.IsNullOrEmpty(emailSettings.EmailSubject))
+            {
+                smtpMessage.Subject = emailSettings.EmailSubject;
+            } else
+            {
+                smtpMessage.Subject = Merge(emailRecord.EmailSubject, emailSettings.Data);
+            }
+                
 
             // Send the email 
             await smtpClient.SendMailAsync(smtpMessage);
