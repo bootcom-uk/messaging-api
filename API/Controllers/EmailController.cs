@@ -81,10 +81,10 @@ namespace API.Controllers
             // Setup the mail subject 
             if (string.IsNullOrEmpty(emailSettings.EmailSubject))
             {
-                smtpMessage.Subject = emailSettings.EmailSubject;
+                smtpMessage.Subject = Merge(emailRecord.EmailSubject, emailSettings.Data);                
             } else
             {
-                smtpMessage.Subject = Merge(emailRecord.EmailSubject, emailSettings.Data);
+                smtpMessage.Subject = emailSettings.EmailSubject;
             }
                 
 
