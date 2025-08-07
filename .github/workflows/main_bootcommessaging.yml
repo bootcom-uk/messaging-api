@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: read #This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -21,103 +23,24 @@ jobs:
         with:
           dotnet-version: '9.x'
 
-      - name: Replace Variables in appsettings.json
-        uses: Nambers/ReplaceStringInFile@v1.3
-        with:
-          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
-          oldString: "{{LOGGING_CONNECTIONSTRING}}"
-          newString: "${{secrets.LOGGING_CONNECTIONSTRING}}"
-          showFileContent: true
-
-      - name: Replace Variables in appsettings.json
-        uses: Nambers/ReplaceStringInFile@v1.3
-        with:
-          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
-          oldString: "{{MESSAGING_CONNECTIONSTRING}}"
-          newString: "${{secrets.MESSAGING_CONNECTIONSTRING}}"
-          showFileContent: true
-
-      - name: Replace Variables in appsettings.json
-        uses: Nambers/ReplaceStringInFile@v1.3
-        with:
-          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
-          oldString: "{{MESSAGING_DATABASE_NAME}}"
-          newString: "${{secrets.MESSAGING_DATABASE_NAME}}"
-          showFileContent: true
-
-      - name: Replace Variables in appsettings.json
-        uses: Nambers/ReplaceStringInFile@v1.3
-        with:
-          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
-          oldString: "{{EMAIL_HOST}}"
-          newString: "${{secrets.EMAIL_HOST}}"
-          showFileContent: true
-
-      - name: Replace Variables in appsettings.json
-        uses: Nambers/ReplaceStringInFile@v1.3
-        with:
-          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
-          oldString: "{{EMAIL_PORT}}"
-          newString: "${{secrets.EMAIL_PORT}}"
-          showFileContent: true
-
-      - name: Replace Variables in appsettings.json
-        uses: Nambers/ReplaceStringInFile@v1.3
-        with:
-          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
-          oldString: "{{EMAIL_USE_SSL}}"
-          newString: "${{secrets.EMAIL_USE_SSL}}"
-          showFileContent: true
-
-      - name: Replace Variables in appsettings.json
-        uses: Nambers/ReplaceStringInFile@v1.3
-        with:
-          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
-          oldString: "{{FROM_EMAIL_ADDRESS}}"
-          newString: "${{secrets.FROM_EMAIL_ADDRESS}}"
-          showFileContent: true
-
-      - name: Replace Variables in appsettings.json
-        uses: Nambers/ReplaceStringInFile@v1.3
-        with:
-          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
-          oldString: "{{FROM_EMAIL_DISPLAY_NAME}}"
-          newString: "${{secrets.FROM_EMAIL_DISPLAY_NAME}}"
-          showFileContent: true
-
-      - name: Replace Variables in appsettings.json
-        uses: Nambers/ReplaceStringInFile@v1.3
-        with:
-          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
-          oldString: "{{FROM_EMAIL_USERNAME}}"
-          newString: "${{secrets.FROM_EMAIL_USERNAME}}"
-          showFileContent: true
-
-      - name: Replace Variables in appsettings.json
-        uses: Nambers/ReplaceStringInFile@v1.3
-        with:
-          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
-          oldString: "{{FROM_EMAIL_PASSWORD}}"
-          newString: "${{secrets.FROM_EMAIL_PASSWORD}}"
-          showFileContent: true
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c=Release -property:PublishDir=/publish --arch=x86
+        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: /publish
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: windows-latest
     needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
 
     steps:
       - name: Download artifact from build job
@@ -128,9 +51,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A5EB16263A4B4075A935E1E6A953E008 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_28F7E5CC404C4DA380D629D011D24945 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_BE33B4FA56AC4E2ABFE6ADE3705ECA70 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C788F79EB5294B6092AC977685A89B17 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E246EDD782EB4B2C9D1C990C32BA09C7 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7462CBD8901A431186C108E5F1F6E2AD }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
