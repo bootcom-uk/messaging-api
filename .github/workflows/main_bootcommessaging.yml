@@ -22,7 +22,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x'
+          dotnet-version: '9.x'
 
       - name: Replace Variables in appsettings.json
         uses: Nambers/ReplaceStringInFile@v1.3
@@ -142,6 +142,7 @@ jobs:
           package: .
 
           
+
 
 
 
