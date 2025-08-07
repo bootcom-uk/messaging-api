@@ -4,9 +4,10 @@
 name: Build and deploy ASP.Net Core app to Azure Web App - BootComMessaging
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["SonarCloud"]
+    types:
+      - completed
   workflow_dispatch:
 
 jobs:
@@ -23,17 +24,94 @@ jobs:
         with:
           dotnet-version: '9.x'
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{LOGGING_CONNECTIONSTRING}}"
+          newString: "${{secrets.LOGGING_CONNECTIONSTRING}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{MESSAGING_CONNECTIONSTRING}}"
+          newString: "${{secrets.MESSAGING_CONNECTIONSTRING}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{MESSAGING_DATABASE_NAME}}"
+          newString: "${{secrets.MESSAGING_DATABASE_NAME}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{EMAIL_HOST}}"
+          newString: "${{secrets.EMAIL_HOST}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{EMAIL_PORT}}"
+          newString: "${{secrets.EMAIL_PORT}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{EMAIL_USE_SSL}}"
+          newString: "${{secrets.EMAIL_USE_SSL}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{FROM_EMAIL_ADDRESS}}"
+          newString: "${{secrets.FROM_EMAIL_ADDRESS}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{FROM_EMAIL_DISPLAY_NAME}}"
+          newString: "${{secrets.FROM_EMAIL_DISPLAY_NAME}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{FROM_EMAIL_USERNAME}}"
+          newString: "${{secrets.FROM_EMAIL_USERNAME}}"
+          showFileContent: true
+
+      - name: Replace Variables in appsettings.json
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: "D:\\\\a\\\\messaging-api\\\\messaging-api\\\\api\\\\appsettings.json"
+          oldString: "{{FROM_EMAIL_PASSWORD}}"
+          newString: "${{secrets.FROM_EMAIL_PASSWORD}}"
+          showFileContent: true
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish -c=Release -property:PublishDir=/publish --arch=x86
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: /publish
 
   deploy:
     runs-on: windows-latest
@@ -62,4 +140,10 @@ jobs:
           app-name: 'BootComMessaging'
           slot-name: 'Production'
           package: .
+
           
+
+
+
+
+
